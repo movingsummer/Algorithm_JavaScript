@@ -1,14 +1,12 @@
 function solution(babbling) {
-    const babble = ['aya', 'ye', 'woo', 'ma']
-    return babbling.reduce((ret, cur) => {
-        for (const c of babble) 
-            if (cur.includes(c.repeat(2))) return ret;
+    const pro = ['aya', 'ye', 'woo', 'ma']
+    return babbling.reduce((sum, cur) => {
+        for (const word of pro)
+            if (cur.includes(word.repeat(2))) return sum;
+        for (const word of pro)
+            cur = cur.split(word).join(' ').trim()
         
-        for (const c of babble)
-            cur = cur.split(c).join(' ').trim()
-        
-        if (cur) return ret;
-        
-        return ret + 1;
+        if (cur) return sum;
+        return sum + 1;
     }, 0)
 }
