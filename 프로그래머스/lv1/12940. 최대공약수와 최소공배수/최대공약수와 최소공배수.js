@@ -1,9 +1,5 @@
 function solution(n, m) {
-    const GCD = (a, b) => {
-        if (b === 0) return a;
-        return GCD(b, a % b)
-    }
-    
-    const ret = GCD(n, m);
-    return [ret, n * m / ret]
+    let r, nm;
+    for (nm = n * m; r = n % m; n = m, m = r) {}
+    return [m, nm / m]
 }
