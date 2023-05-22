@@ -3,10 +3,9 @@ const [n, m] = (require('fs').readFileSync('/dev/stdin') + '')
   .split(' ')
   .map((v) => +v);
 const GCD = (n, m) => {
-  if (m === 0) return n;
-  return GCD(m, n % m);
+  let nm;
+  for (nm = m * n; m; tmp = m, m = n % m, n = tmp) {}
+  return [n, ~~(nm / n)];
 };
 
-const ret = GCD(n, m);
-console.log(ret);
-console.log(~~(n * m) / ret);
+console.log(GCD(n, m).join('\n'));
