@@ -6,11 +6,11 @@ let tc = t;
 let line = 0;
 
 while (tc--) {
-  const [x1, y1, x2, y2] = rem[line].split(' ').map((v) => +v);
-  const n = +rem[line + 1];
-  const planets = rem.slice(line + 2, line + 2 + n);
+  const [x1, y1, x2, y2] = rem[line++].split(' ').map((v) => +v);
+  const n = +rem[line++];
+  const planets = rem.slice(line, line + n);
   let cnt = 0;
-  line += 2 + n;
+  line += n;
 
   planets.forEach((item) => {
     const [cx, cy, r] = item.split(' ').map((v) => +v);
