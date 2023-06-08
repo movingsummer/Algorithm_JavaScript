@@ -1,58 +1,40 @@
-const [dx, dy] = [
-  [1, 0, -1, 0],
-  [0, 1, 0, -1],
-];
-const OOB = (x, y) => x < 0 || y < 0 || x >= r || y >= c;
-const boom = (x, y) => {
-  for (let dir = 0; dir < 4; dir++) {
-    const [nx, ny] = [x + dx[dir], y + dy[dir]];
-    if (!OOB(nx, ny)) {
-      board[nx][ny] = '.';
-    }
-  }
-};
-const traverse = (func) => {
-  for (let i = 0; i < r; i++) {
-    for (let j = 0; j < c; j++) {
-      func(i, j);
-    }
-  }
-
-  return;
-};
-
-const [rcn, ...b] = (require('fs').readFileSync('/dev/stdin') + '')
+const [rcn, ...initial] = (require('fs').readFileSync('/dev/stdin') + '')
   .trim()
   .split(/\r?\n/);
 const [r, c, n] = rcn.split(' ').map((v) => +v);
-const board = b.map((v) => v.split(''));
-const timer = Array.from(Array(r), () => new Array(c).fill(0));
+const allBomb = ('O'.repeat(c) + '\n').repeat(r - 1) + 'O'.repeat(c);
+const initialBomb = allBomb.split(/\r?\n/).map((v) => v.split(''));
 
-traverse((i, j) => {
-  if (board[i][j] === 'O') timer[i][j] = 2;
-  return;
-});
+for (let i = 0; i < r; i++) {
+  for (let j = 0; j < c; j++) {
+    if (initial[i][j] === 'O') {
+      initialBomb[i][j] = '.';
+      if (i - 1 >= 0) initialBomb[i - 1][j] = '.';
+      if (i + 1 < r) initialBomb[i + 1][j] = '.';
+      if (j - 1 >= 0) initialBomb[i][j - 1] = '.';
+      if (j + 1 < c) initialBomb[i][j + 1] = '.';
+    }
+  }
+}
+const initialMap = initial.join('\n');
+const afterBoom = initialBomb.map((v) => v.join('')).join('\n');
+const afterx2Boom = allBomb.split(/\r?\n/).map((v) => v.split(''));
 
-for (let time = 1; time < n; time++) {
-  if (time % 2) {
-    traverse((i, j) => {
-      if (board[i][j] === '.') {
-        board[i][j] = 'O';
-        timer[i][j] = 3;
-      } else {
-        timer[i][j] -= 1;
-      }
-    });
-  } else {
-    traverse((i, j) => {
-      if (timer[i][j] === 1) {
-        board[i][j] = '.';
-        boom(i, j);
-      } else {
-        timer[i][j] -= 1;
-      }
-    });
+for (let i = 0; i < r; i++) {
+  for (let j = 0; j < c; j++) {
+    if (initialBomb[i][j] === 'O') {
+      afterx2Boom[i][j] = '.';
+      if (i - 1 >= 0) afterx2Boom[i - 1][j] = '.';
+      if (i + 1 < r) afterx2Boom[i + 1][j] = '.';
+      if (j - 1 >= 0) afterx2Boom[i][j - 1] = '.';
+      if (j + 1 < c) afterx2Boom[i][j + 1] = '.';
+    }
   }
 }
 
-console.log(board.map((v) => v.join('')).join('\n'));
+const afterx2BoomMap = afterx2Boom.map((v) => v.join('')).join('\n');
+
+if (n === 1) console.log(initialMap);
+else if (n % 2 === 0) console.log(allBomb);
+else if (n % 4 === 1) console.log(afterx2BoomMap);
+else console.log(afterBoom);
