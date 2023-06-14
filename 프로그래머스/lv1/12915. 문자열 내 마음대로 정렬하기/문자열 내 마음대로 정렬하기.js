@@ -1,3 +1,7 @@
 function solution(strings, n) {
-    return strings.sort((a, b) => a[n] === b[n] ? a.localeCompare(b) : a[n].localeCompare(b[n]))
+    for (let i = 0; i < strings.length; i++) {
+        strings[i] = strings[i][n] + strings[i];
+    }
+    
+    return strings.sort().map(v=>v.replace(v[0], ""))
 }
