@@ -1,3 +1,7 @@
 function solution(s) {
-    return [...s].sort((a, b) => b.charCodeAt(0) - a.charCodeAt(0)).join('')
+    return [...s].sort((a, b) => {
+        if (a > b) return -1;
+        else if (a < b) return 1;
+        return 0;
+    }).join('')
 }
