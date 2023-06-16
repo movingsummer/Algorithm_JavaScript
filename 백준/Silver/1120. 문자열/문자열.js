@@ -5,8 +5,8 @@ let ans = Infinity;
 
 for (let i = 0; i <= str2.length - str1.length; i++) {
   let cnt = 0;
-  for (let j = i; j < str1.length + i; j++) {
-    if (str1[j - i] !== str2[j]) cnt++;
+  for (let j = 0; j < str1.length; j++) {
+    if (str1[j] !== str2[i + j]) cnt++;
   }
 
   ans = Math.min(cnt, ans);
